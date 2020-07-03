@@ -14,7 +14,7 @@ import random
 
 class Ui_Form_False(object):
     def setupUi(self, Form):
-        picture_list = ["fota.jpg", "vader.jpg", "minecraft_bad.png", "mario_sad.jpg"]
+        picture_list = ["fota.png", "vader.jpg", "minecraft_bad.png", "mario_sad.jpg"]
         pic = random.choice(list(picture_list))
 
         Form.setObjectName("Form")
@@ -30,7 +30,7 @@ class Ui_Form_False(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "To błąd !"))
 
 
 

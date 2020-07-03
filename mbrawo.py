@@ -14,7 +14,7 @@ import random
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        picture_list = ["goodjob.png", "mario_ok.jpg", "yoda_ok.jpg"]
+        picture_list = ["goodjob.png", "mario_ok.png", "yoda_ok.jpg"]
         pic = random.choice(list(picture_list))
 
         Form.setObjectName("Form")
@@ -40,10 +40,8 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Dobra robota !"))
         self.label_2.setText(_translate("Form", "BRAWO !!!"))
-
-
 
 
 if __name__ == "__main__":

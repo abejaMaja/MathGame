@@ -9,15 +9,15 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QMessageBox, QAction
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QIcon,QPixmap, QIntValidator, QFocusEvent
+from PyQt5.QtGui import QIcon, QPixmap, QIntValidator, QFocusEvent
 from mbrawo import Ui_Form
 from mfalse import Ui_Form_False
 import random
 
 
-
+# main Calculation
 class Calculation():
 
     def add(self, a, b):
@@ -36,25 +36,34 @@ class Calculation():
         return result
 
     def division(self, a, b):
-        result = a / b
+        if a > b or a == b:
+            result = a // b
+        else:
+            result = b // a
         return result
 
 
+# GUI setup
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(817, 499)
+        MainWindow.resize(1024, 768)
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         font.setKerning(True)
         MainWindow.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
+        MainWindow.setWindowTitle("Database results")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.newButton = QtWidgets.QPushButton(self.centralwidget)
-        self.newButton.setGeometry(QtCore.QRect(30, 20, 191, 71))
+        self.newButton.setGeometry(QtCore.QRect(30, 30, 191, 70))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -63,7 +72,7 @@ class Ui_MainWindow(object):
         self.newButton.setFont(font)
         self.newButton.setObjectName("newButton")
         self.checkButton = QtWidgets.QPushButton(self.centralwidget)
-        self.checkButton.setGeometry(QtCore.QRect(550, 400, 191, 71))
+        self.checkButton.setGeometry(QtCore.QRect(600, 480, 191, 70))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -72,36 +81,83 @@ class Ui_MainWindow(object):
         self.checkButton.setFont(font)
         self.checkButton.setObjectName("checkButton")
         self.labelEqual = QtWidgets.QLabel(self.centralwidget)
-        self.labelEqual.setGeometry(QtCore.QRect(500, 150, 141, 111))
+        self.labelEqual.setGeometry(QtCore.QRect(545, 230, 141, 111))
         font = QtGui.QFont()
         font.setPointSize(60)
         self.labelEqual.setFont(font)
         self.labelEqual.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.labelEqual.setIndent(46)
+        self.labelEqual.setAlignment(QtCore.Qt.AlignCenter)
         self.labelEqual.setObjectName("labelEqual")
-
+        # comboBox
+        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox.setGeometry(QtCore.QRect(480, 20, 420, 90))
+        self.groupBox.setObjectName("groupBox")
+        self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        self.comboBox.setGeometry(QtCore.QRect(310, 15, 61, 61))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.comboBox.setFont(font)
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.label_info = QtWidgets.QLabel(self.groupBox)
+        self.label_info.setGeometry(QtCore.QRect(40, 25, 261, 41))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.label_info.setFont(font)
+        self.label_info.setObjectName("label_info")
+        # menu and logo
+        self.logo = QtWidgets.QLabel(self.centralwidget)
+        self.logo.setGeometry(QtCore.QRect(200, 430, 201, 151))
+        self.logo.setText("")
+        self.logo.setPixmap(QtGui.QPixmap("liczydlo.png"))
+        self.logo.setScaledContents(True)
+        self.logo.setObjectName("logo")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 817, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.menubar.setFont(font)
+        self.menubar.setObjectName("menubar")
+        self.menuRodzaj_zadania = QtWidgets.QMenu(self.menubar)
+        self.menuRodzaj_zadania.setObjectName("menuRodzaj_zadania")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionDodawanie_Odejmowanie = QtWidgets.QAction(MainWindow)
+        self.actionDodawanie_Odejmowanie.setObjectName("actionDodawanie_Odejmowanie")
+        self.actionTabliczka_mno_enia = QtWidgets.QAction(MainWindow)
+        self.actionTabliczka_mno_enia.setObjectName("actionTabliczka_mno_enia")
+        self.menuRodzaj_zadania.addAction(self.actionDodawanie_Odejmowanie)
+        self.menuRodzaj_zadania.addAction(self.actionTabliczka_mno_enia)
+        self.menubar.addAction(self.menuRodzaj_zadania.menuAction())
+        # others labels
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
-        self.label_1.setGeometry(QtCore.QRect(500, 230, 500, 150))
+        self.label_1.setGeometry(QtCore.QRect(640, 310, 500, 150))
         font = QtGui.QFont()
         font.setPointSize(15)
         self.label_1.setFont(font)
         self.label_1.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label_1.setIndent(46)
         self.label_1.setObjectName("label_1")
-        
-
         self.labelL = QtWidgets.QLabel(self.centralwidget)
-        self.labelL.setGeometry(QtCore.QRect(50, 140, 151, 131))
+        self.labelL.setGeometry(QtCore.QRect(80, 220, 151, 131))
         font = QtGui.QFont()
-        font.setPointSize(100)
+        font.setPointSize(80)
         self.labelL.setFont(font)
         self.labelL.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.labelL.setLineWidth(1)
         self.labelL.setMidLineWidth(0)
         self.labelL.setIndent(1)
+        self.labelL.setAlignment(QtCore.Qt.AlignCenter)
         self.labelL.setObjectName("labelL")
         self.labelMark = QtWidgets.QLabel(self.centralwidget)
-        self.labelMark.setGeometry(QtCore.QRect(210, 140, 151, 131))
+        self.labelMark.setGeometry(QtCore.QRect(240, 220, 151, 131))
         font = QtGui.QFont()
         font.setPointSize(70)
         self.labelMark.setFont(font)
@@ -109,50 +165,44 @@ class Ui_MainWindow(object):
         self.labelMark.setLineWidth(1)
         self.labelMark.setMidLineWidth(0)
         self.labelMark.setIndent(50)
+        self.labelMark.setAlignment(QtCore.Qt.AlignCenter)
         self.labelMark.setObjectName("labelMark")
         self.labelP = QtWidgets.QLabel(self.centralwidget)
-        self.labelP.setGeometry(QtCore.QRect(370, 140, 151, 131))
+        self.labelP.setGeometry(QtCore.QRect(400, 220, 151, 131))
         font = QtGui.QFont()
-        font.setPointSize(100)
+        font.setPointSize(80)
         self.labelP.setFont(font)
         self.labelP.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.labelP.setLineWidth(1)
         self.labelP.setMidLineWidth(0)
         self.labelP.setIndent(1)
         self.labelP.setObjectName("labelP")
+        self.labelP.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEditR = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEditR.setGeometry(QtCore.QRect(630, 140, 151, 141))
+        self.lineEditR.setGeometry(QtCore.QRect(710, 220, 190, 141))
+        self.lineEditR.setAlignment(QtCore.Qt.AlignCenter)
         font = QtGui.QFont()
-        font.setPointSize(100)
-
+        font.setPointSize(80)
         self.lineEditR.setFont(font)
         self.lineEditR.setObjectName("lineEditR")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 817, 21))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-
-        #Field limits
+        # Field limits
         self.lineEditR.setMaxLength(4)
         self.lineEditR.setValidator(QIntValidator(0,1000))
 
+        # label's functions
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.newButton.clicked.connect(self.calc_view)
+        self.newButton.clicked.connect(self.plus_minus)
         self.checkButton.clicked.connect(self.check)
         self.lineEditR.returnPressed.connect(self.check)
 
-
-
-
+        self.actionDodawanie_Odejmowanie.triggered.connect(self.plus_task)
+        self.actionTabliczka_mno_enia.triggered.connect(self.multi_task)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Rachunkowe zabawy"))
         _translate = QtCore.QCoreApplication.translate
         self.checkButton.setText(_translate("MainWindow", "Sprawdź"))
         self.labelEqual.setText(_translate("MainWindow", "="))
@@ -189,25 +239,24 @@ class Ui_MainWindow(object):
         self.labelP.setText(_translate("MainWindow", ""))
         self.lineEditR.setText(_translate("MainWindow", ""))
         self.label_1.setText(_translate("MainWindow", "Zatwierdź wynik ENTEREM"))
+        self.groupBox.setTitle(_translate("MainWindow", ""))
+        self.comboBox.setItemText(0, _translate("MainWindow", "10"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "20"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "50"))
+        self.comboBox.setItemText(3, _translate("MainWindow", "100"))
+        self.label_info.setText(_translate("MainWindow", "Wybierz zakres działań do:"))
+        self.menuRodzaj_zadania.setTitle(_translate("MainWindow", "Rodzaj zadania"))
+        self.actionDodawanie_Odejmowanie.setText(_translate("MainWindow", "Dodawanie/Odejmowanie"))
+        self.actionTabliczka_mno_enia.setText(_translate("MainWindow", "Mnożenie/Dzielenie"))
 
-
-    def calc_view(self):
-
-        print("funkcja calc_view")
-
+    def multiply_table(self):
         calc = Calculation()
-        a = random.randint(0, 20)
-        b = random.randint(0, 20)
-        action_dict = {calc.add(a, b): "+",
-                       calc.substract(a, b): "-",
-         #             calc.multiply(a,b): "*",
-         #             calc.division(a,b): "/"
-                    }
+        a = random.randint(1, 10)
+        b = random.randint(1, 10)
+        action_dict = {calc.multiply(a, b): "x", calc.division(a, b): "/"}
         self.action = random.choice(list(action_dict))
-        print("self.action = ", self.action)
         mark = action_dict[self.action]
         self.result = self.action
-
 
         if a < b:
             self.labelL.setNum(b)
@@ -220,39 +269,55 @@ class Ui_MainWindow(object):
             self.labelP.setNum(b)
             self.lineEditR.setText("")
 
+    def plus_minus(self):
+        calc = Calculation()
+        x = int(self.comboBox.currentText())
+        a = random.randint(0, x)
+        b = random.randint(0, x)
+        action_dict = {calc.add(a, b): "+", calc.substract(a, b): "-"}
+        self.action = random.choice(list(action_dict))
+        print("self.action = ", self.action)
+        mark = action_dict[self.action]
+        self.result = self.action
+
+        if a < b:
+            self.labelL.setNum(b)
+            self.labelMark.setText(mark)
+            self.labelP.setNum(a)
+            self.lineEditR.setText("")
+        else:
+            self.labelL.setNum(a)
+            self.labelMark.setText(mark)
+            self.labelP.setNum(b)
+            self.lineEditR.setText("")
+
+    def multi_task(self):
+        self.newButton.clicked.connect(self.multiply_table)
+        self.groupBox.setEnabled(False)
+
+    def plus_task(self):
+        self.newButton.clicked.connect(self.plus_minus)
 
     def brawoscr(self):
-        print ("funkcja bwaroscr")
         self.Form = QtWidgets.QWidget()
         self.ui = Ui_Form()
         self.ui.setupUi(self.Form)
         self.Form.show()
 
     def falsescr(self):
-        print ("funkcja falsescr")
         self.Form = QtWidgets.QWidget()
         self.ui = Ui_Form_False()
         self.ui.setupUi(self.Form)
         self.Form.show()
 
-
     def check(self):
-
-        print ("funkcja check")
-
         result = self.action
         man_result = int(self.lineEditR.text())
 
         if man_result == result:
             self.checkButton.clicked.connect(self.brawoscr)
-
-            print ("man result = ", man_result)
         else:
             self.checkButton.clicked.connect(self.falsescr)
-
-            print ("man result falszywy = ", man_result)
-
-
 
 
 if __name__ == "__main__":
